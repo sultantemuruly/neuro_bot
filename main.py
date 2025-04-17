@@ -1,7 +1,11 @@
 import os
 from dotenv import load_dotenv
-
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    ReplyKeyboardMarkup,
+    Update,
+)
 from telegram.ext import (
     Application,
     CommandHandler,
@@ -11,10 +15,22 @@ from telegram.ext import (
     ContextTypes,
 )
 
+load_dotenv()
 TOKEN = os.getenv("BOT_TOKEN")
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    keyboard = [["Start"]]
+    reply_markup = ReplyKeyboardMarkup(
+        keyboard, one_time_keyboard=True, resize_keyboard=True
+    )
+
+    await update.message.reply_text(
+        "Welcome! Press 'Start' to begin.", reply_markup=reply_markup
+    )
+
+
+async def start_button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
         [InlineKeyboardButton("Option 1", callback_data="option_1")],
         [InlineKeyboardButton("Option 2", callback_data="option_2")],
@@ -38,8 +54,11 @@ async def button_selection_handler(
 
 def main():
     application = Application.builder().token(TOKEN).build()
-
     application.add_handler(CommandHandler("start", start))
+    application.add_handler(
+        MessageHandler(filters.TEXT & filters.Regex("^Start$"), start_button_handler)
+    )
+
     application.add_handler(
         CallbackQueryHandler(button_selection_handler, pattern="^option_")
     )
