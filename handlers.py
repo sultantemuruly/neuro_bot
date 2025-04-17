@@ -57,49 +57,6 @@ async def ask_next_question(update_or_query, context: ContextTypes.DEFAULT_TYPE)
         await _show_summary(update_or_query, context)
 
 
-async def button_selection_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-
-    try:
-        await query.answer()
-    except Exception as e:
-        print(f"Error answering callback query: {e}")
-
-    selected_value = query.data.split("_")[1]
-    index = context.user_data.get("question_index", 0)
-
-    if index < len(question_keys):
-        key = question_keys[index]
-        question_text = questions_and_responses[key]["question"]
-        response_text = questions_and_responses[key]["response"]
-
-        if "history" not in context.user_data:
-            context.user_data["history"] = []
-
-        context.user_data["history"].append(
-            {
-                "question": question_text,
-                "answer": selected_value,
-                "response": response_text,
-            }
-        )
-
-        try:
-            await query.edit_message_text(
-                f"{question_text}\n\nYou selected: {selected_value}"
-            )
-        except Exception as e:
-            print(f"Error editing message: {e}")
-            await query.message.reply_text(
-                f"You selected: {selected_value} for the question: {question_text}"
-            )
-
-        await query.message.reply_text(response_text)
-
-        context.user_data["question_index"] = index + 1
-        await ask_next_question(query, context)
-
-
 async def _show_summary(update_or_query, context: ContextTypes.DEFAULT_TYPE):
     history = context.user_data.get("history", [])
 
