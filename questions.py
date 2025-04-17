@@ -1,7 +1,7 @@
 questions_and_responses = {
     "greeting": {
         "question": "Hi! On a scale from 1 to 5, how are you feeling today?",
-        "response": "Hi! I'm here to listen. How are you feeling today? Let's talk about your current state.",
+        "response": "I'm here to listen. How are you feeling today? Let's talk about your current state.",
     },
     "anxiety_question": {
         "question": "On a scale from 1 to 5, how anxious do you feel right now? (1 = not anxious at all, 5 = extremely anxious)",
@@ -23,8 +23,4 @@ questions_and_responses = {
         "question": "Do you feel like you are growing personally and emotionally on a scale from 1 to 5? (1 = not at all, 5 = significantly)",
         "response": "Personal growth can be slow and sometimes challenging, but reflecting on it is a big step towards progress.",
     },
-    # "transition_question": {
-    #     "question": "Is there anything specific you'd like to talk about or ask me?",
-    #     "response": "I'm here to help. Feel free to ask me anything you'd like or tell me more about how you're feeling.",
-    # },
 }
