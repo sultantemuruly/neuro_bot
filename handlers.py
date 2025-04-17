@@ -2,6 +2,7 @@ from telegram import Update
 from telegram.ext import ContextTypes
 from keyboards import get_scale_keyboard, get_start_keyboard
 from questions import questions_and_responses
+from ai import get_recommendations
 
 # Prepare list of question keys
 question_keys = list(questions_and_responses.keys())
@@ -108,6 +109,13 @@ async def _show_summary(update_or_query, context: ContextTypes.DEFAULT_TYPE):
     )
     await update_or_query.message.reply_text(
         f"📝 *Your Conversation Summary:*\n\n{formatted_history}",
+        parse_mode="Markdown",
+    )
+
+    # Get and send ai recommendations
+    recommendations = await get_recommendations(history)
+    await update_or_query.message.reply_text(
+        f"🧠 *Personal Recommendations:*\n\n{recommendations}",
         parse_mode="Markdown",
     )
 
