@@ -32,7 +32,6 @@ async def start_button_handler(update: Update, context: ContextTypes.DEFAULT_TYP
     if "history" not in context.user_data:
         context.user_data["history"] = []
 
-    # Hide the keyboard after pressing Start
     await update.message.reply_text(
         "Starting conversation... Please use the buttons to respond.",
         reply_markup=ReplyKeyboardRemove(),
