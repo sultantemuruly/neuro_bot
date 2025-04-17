@@ -7,7 +7,13 @@ from telegram.ext import (
     MessageHandler,
     filters,
 )
-from handlers import start, reset, start_button_handler, button_selection_handler
+from handlers import (
+    start,
+    reset,
+    start_button_handler,
+    button_selection_handler,
+    new_conversation_handler,
+)
 
 
 def main():
@@ -23,6 +29,11 @@ def main():
     )
     application.add_handler(
         CallbackQueryHandler(button_selection_handler, pattern="^scale_")
+    )
+    application.add_handler(
+        MessageHandler(
+            filters.TEXT & filters.Regex("^New Conversation$"), new_conversation_handler
+        )
     )
 
     print("🤖 Bot is running...")

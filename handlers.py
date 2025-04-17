@@ -1,8 +1,9 @@
-from telegram import Update
 from telegram.ext import ContextTypes
 from keyboards import get_scale_keyboard, get_start_keyboard
 from questions import questions_and_responses
 from ai import get_recommendations
+from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
+from telegram.ext import ContextTypes
 
 # Prepare list of question keys
 question_keys = list(questions_and_responses.keys())
@@ -15,9 +16,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data["question_index"] = 0
     context.user_data["history"] = []
 
+    keyboard = [["Start"]]
+    reply_markup = ReplyKeyboardMarkup(
+        keyboard, one_time_keyboard=True, resize_keyboard=True
+    )
+
     await update.message.reply_text(
         "👋 Welcome! Press 'Start' to begin the conversation.",
-        reply_markup=get_start_keyboard(),
+        reply_markup=reply_markup,
     )
 
 
@@ -25,6 +31,13 @@ async def start_button_handler(update: Update, context: ContextTypes.DEFAULT_TYP
     context.user_data["question_index"] = 0
     if "history" not in context.user_data:
         context.user_data["history"] = []
+
+    # Hide the keyboard after pressing Start
+    await update.message.reply_text(
+        "Starting conversation... Please use the buttons to respond.",
+        reply_markup=ReplyKeyboardRemove(),
+    )
+
     await ask_next_question(update, context)
 
 
@@ -119,6 +132,14 @@ async def _show_summary(update_or_query, context: ContextTypes.DEFAULT_TYPE):
         parse_mode="Markdown",
     )
 
+    keyboard = [["New Conversation"]]
+    reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+
+    await update_or_query.message.reply_text(
+        "Conversation complete! You can now type a message or start a new conversation.",
+        reply_markup=reply_markup,
+    )
+
 
 async def button_selection_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -158,3 +179,7 @@ async def reset(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "🔄 Your conversation has been reset. Send /start to begin again."
     )
+
+
+async def new_conversation_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await start(update, context)
