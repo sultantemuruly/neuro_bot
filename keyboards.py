@@ -2,7 +2,7 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMa
 
 
 def get_start_keyboard():
-    keyboard = [["Start"]]
+    keyboard = [["Start Conversation"]]
     return ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
 
 
