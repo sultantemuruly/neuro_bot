@@ -6,6 +6,11 @@ def get_start_keyboard():
     return ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
 
 
+def get_new_conversation_keyboard():
+    keyboard = [["New Conversation"]]
+    return ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+
+
 def get_scale_keyboard():
     return InlineKeyboardMarkup(
         [

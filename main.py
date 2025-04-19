@@ -25,7 +25,9 @@ def main():
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("reset", reset))
     application.add_handler(
-        MessageHandler(filters.TEXT & filters.Regex("^Start$"), start_button_handler)
+        MessageHandler(
+            filters.TEXT & filters.Regex("^Start Conversation$"), start_button_handler
+        )
     )
     application.add_handler(
         CallbackQueryHandler(button_selection_handler, pattern="^scale_")
@@ -36,7 +38,7 @@ def main():
         )
     )
 
-    print("🤖 Bot is running...")
+    print("Bot is running...")
     application.run_polling()
 
 

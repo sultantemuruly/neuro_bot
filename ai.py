@@ -17,9 +17,7 @@ async def get_recommendations(history):
         # Create a simple formatted summary of user responses
         formatted_input = "Based on the user's responses:\n\n"
         for entry in history:
-            question = (
-                entry.get("question", "").split("(")[0].strip()
-            )  # Get main question without scale explanation
+            question = entry.get("question", "").split("(")[0].strip()
             answer = entry.get("answer", "")
             formatted_input += f"- {question} User answered: {answer}/5\n"
 
