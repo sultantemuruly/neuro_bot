@@ -23,7 +23,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     reply_markup = get_start_keyboard()
 
     await update.message.reply_text(
-        "👋 Welcome! Press 'Start' to begin the conversation.",
+        "👋 Welcome! Press 'Start Conversation' to begin the conversation.",
         reply_markup=reply_markup,
     )
 
